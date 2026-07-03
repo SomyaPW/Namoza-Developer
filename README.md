@@ -1,8 +1,8 @@
 /* ===========================================
-   OrthoNow Consultation Form
+   OrthoNow Landing Page
 =========================================== */
 
-// Initialize Google Tag Manager dataLayer
+// Initialize GTM Data Layer
 window.dataLayer = window.dataLayer || [];
 
 // DOM Elements
@@ -12,37 +12,26 @@ const thankYou = document.getElementById("thankyou");
 
 const nameInput = document.getElementById("name");
 const phoneInput = document.getElementById("phone");
-const clinicInput = document.getElementById("clinic");
-
 const error = document.getElementById("error");
 
 /* ===========================================
    Helper Functions
 =========================================== */
 
-// Show error message
 function showError(message) {
     error.textContent = message;
 }
 
-// Clear error message
 function clearError() {
     error.textContent = "";
 }
 
-// Validate Name
 function validateName(name) {
     return name.trim().length >= 3;
 }
 
-// Validate Phone Number (10 digits)
 function validatePhone(phone) {
     return /^[6-9]\d{9}$/.test(phone);
-}
-
-// Validate Clinic
-function validateClinic(clinic) {
-    return clinic !== "";
 }
 
 /* ===========================================
@@ -57,26 +46,18 @@ form.addEventListener("submit", function (e) {
 
     const name = nameInput.value.trim();
     const phone = phoneInput.value.trim();
-    const clinic = clinicInput.value;
 
-    // Name Validation
+    // Validate Name
     if (!validateName(name)) {
-        showError("Please enter a valid full name.");
+        showError("Please enter your full name.");
         nameInput.focus();
         return;
     }
 
-    // Phone Validation
+    // Validate Phone
     if (!validatePhone(phone)) {
         showError("Please enter a valid 10-digit mobile number.");
         phoneInput.focus();
-        return;
-    }
-
-    // Clinic Validation
-    if (!validateClinic(clinic)) {
-        showError("Please select your preferred clinic.");
-        clinicInput.focus();
         return;
     }
 
@@ -92,8 +73,6 @@ form.addEventListener("submit", function (e) {
 
         phone_number: phone,
 
-        clinic_preference: clinic,
-
         form_name: "Consultation Landing Page",
 
         page_location: window.location.pathname,
@@ -102,36 +81,30 @@ form.addEventListener("submit", function (e) {
 
     });
 
-    console.log("GTM Event Fired");
-    console.log(window.dataLayer);
+    console.group("GTM Event");
+    console.table(window.dataLayer);
+    console.groupEnd();
 
-    /* ===========================================
-       Thank You State
-    =========================================== */
-
+    // Show Thank You Message
     formBox.style.display = "none";
     thankYou.style.display = "block";
 
-    /* ===========================================
-       Reset Form
-    =========================================== */
-
+    // Reset Form
     form.reset();
 
 });
 
 /* ===========================================
-   Remove Error While Typing
+   Clear Errors While Typing
 =========================================== */
 
 nameInput.addEventListener("input", clearError);
-
 phoneInput.addEventListener("input", clearError);
 
-clinicInput.addEventListener("change", clearError);
-
 /* ===========================================
-   Console Message
+   Page Loaded
 =========================================== */
 
-console.log("OrthoNow Landing Page Loaded Successfully");
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("OrthoNow Landing Page Loaded Successfully");
+});
